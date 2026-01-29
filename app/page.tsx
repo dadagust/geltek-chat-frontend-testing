@@ -235,12 +235,16 @@ export default function Home() {
 
         <section className="main-content">
           <div className="hero">
-              <LogoMark />
-            <div className="hero-title">Привет 👋 я знаю всё об уходовой косметике</div>
-            <div className="hero-subtitle">
-              Помогу тебе выбрать средство под твои задачи
-              <br />и ответить на любые вопросы по уходу
-            </div>
+            {messages.length === 0 ? (
+              <>
+                <LogoMark />
+                <div className="hero-title">Привет 👋 я знаю всё об уходовой косметике</div>
+                <div className="hero-subtitle">
+                  Помогу тебе выбрать средство под твои задачи
+                  <br />и ответить на любые вопросы по уходу
+                </div>
+              </>
+            ) : null}
 
             <div className="chat-input" onClick={() => inputRef.current?.focus()}>
               <PlusSoftIcon />
@@ -283,22 +287,24 @@ export default function Home() {
             </div>
           ) : null}
 
-          <div className="quick-actions">
-            <div className="quick-actions-title">Что я умею?</div>
-            <div className="chip-row">
-              <div className="chip">
-                <FlameIcon />
-                Анализ кожи лица по фото
-              </div>
-              <div className="chip">Подобрать аналог по фото</div>
-              <div className="chip">Собрать набор для ухода</div>
-              <div className="chip">Подобрать средство</div>
-              <div className="chip">Подобрать средство</div>
-              <div className="chip">
-                Собрать набор для студии <span className="pill">Бизнесу</span>
+          {messages.length === 0 ? (
+            <div className="quick-actions">
+              <div className="quick-actions-title">Что я умею?</div>
+              <div className="chip-row">
+                <div className="chip">
+                  <FlameIcon />
+                  Анализ кожи лица по фото
+                </div>
+                <div className="chip">Подобрать аналог по фото</div>
+                <div className="chip">Собрать набор для ухода</div>
+                <div className="chip">Подобрать средство</div>
+                <div className="chip">Подобрать средство</div>
+                <div className="chip">
+                  Собрать набор для студии <span className="pill">Бизнесу</span>
+                </div>
               </div>
             </div>
-          </div>
+          ) : null}
         </section>
       </div>
     </main>
