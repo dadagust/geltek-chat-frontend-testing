@@ -254,7 +254,7 @@ export default function Home() {
             </div>
           ) : null}
 
-          <div className="hero">
+          <div className={`hero ${messages.length === 0 ? 'hero-centered' : ''}`}>
             {messages.length === 0 ? (
               <>
                 <LogoMark />
