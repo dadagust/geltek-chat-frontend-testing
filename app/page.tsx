@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   fetchChatHistory,
   fetchUserChats,
@@ -57,6 +57,7 @@ export default function Home() {
   const [isStreaming, setIsStreaming] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [status, setStatus] = useState<string | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -241,12 +242,19 @@ export default function Home() {
               <br />и ответить на любые вопросы по уходу
             </div>
 
-            <div className="chat-input">
+            <div className="chat-input" onClick={() => inputRef.current?.focus()}>
               <PlusSoftIcon />
               <input
                 placeholder="Спроси меня что угодно"
                 value={message}
                 onChange={(event) => setMessage(event.target.value)}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter' && !event.shiftKey) {
+                    event.preventDefault();
+                    handleSend();
+                  }
+                }}
+                ref={inputRef}
               />
               <button className="send-button" type="button" onClick={handleSend}>
                 <SendIcon />
@@ -254,6 +262,26 @@ export default function Home() {
             </div>
             {status ? <div className="notice">{status}</div> : null}
           </div>
+
+          {messages.length > 0 ? (
+            <div className="chat-thread">
+              {messages.map((item) => (
+                <div key={item.message_id} className={`chat-bubble ${item.role}`}>
+                  <div className="chat-bubble-content">
+                    {item.text ? (
+                      item.text
+                    ) : item.role === 'assistant' && isStreaming ? (
+                      <span className="typing-indicator" aria-label="Ожидание ответа">
+                        <span />
+                        <span />
+                        <span />
+                      </span>
+                    ) : null}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : null}
 
           <div className="quick-actions">
             <div className="quick-actions-title">Что я умею?</div>
