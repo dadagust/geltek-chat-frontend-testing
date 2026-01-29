@@ -234,6 +234,26 @@ export default function Home() {
         </aside>
 
         <section className="main-content">
+          {messages.length > 0 ? (
+            <div className="chat-thread">
+              {messages.map((item) => (
+                <div key={item.message_id} className={`chat-bubble ${item.role}`}>
+                  <div className="chat-bubble-content">
+                    {item.text ? (
+                      item.text
+                    ) : item.role === 'assistant' && isStreaming ? (
+                      <span className="typing-indicator" aria-label="Ожидание ответа">
+                        <span />
+                        <span />
+                        <span />
+                      </span>
+                    ) : null}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : null}
+
           <div className="hero">
             {messages.length === 0 ? (
               <>
@@ -266,26 +286,6 @@ export default function Home() {
             </div>
             {status ? <div className="notice">{status}</div> : null}
           </div>
-
-          {messages.length > 0 ? (
-            <div className="chat-thread">
-              {messages.map((item) => (
-                <div key={item.message_id} className={`chat-bubble ${item.role}`}>
-                  <div className="chat-bubble-content">
-                    {item.text ? (
-                      item.text
-                    ) : item.role === 'assistant' && isStreaming ? (
-                      <span className="typing-indicator" aria-label="Ожидание ответа">
-                        <span />
-                        <span />
-                        <span />
-                      </span>
-                    ) : null}
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : null}
 
           {messages.length === 0 ? (
             <div className="quick-actions">

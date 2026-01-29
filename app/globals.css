@@ -225,7 +225,7 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   gap: 20px;
   text-align: center;
   padding-top: 32px;
