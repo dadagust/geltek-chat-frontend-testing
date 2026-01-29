@@ -231,6 +231,10 @@ main {
   padding-top: 32px;
 }
 
+.hero.hero-centered {
+  justify-content: center;
+}
+
 .hero-logo {
   width: 160px;
   height: 160px;
