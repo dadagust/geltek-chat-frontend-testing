@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   fetchChatHistory,
   fetchUserChats,
@@ -57,6 +57,7 @@ export default function Home() {
   const [isStreaming, setIsStreaming] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [status, setStatus] = useState<string | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -234,19 +235,30 @@ export default function Home() {
 
         <section className="main-content">
           <div className="hero">
-              <LogoMark />
-            <div className="hero-title">Привет 👋 я знаю всё об уходовой косметике</div>
-            <div className="hero-subtitle">
-              Помогу тебе выбрать средство под твои задачи
-              <br />и ответить на любые вопросы по уходу
-            </div>
+            {messages.length === 0 ? (
+              <>
+                <LogoMark />
+                <div className="hero-title">Привет 👋 я знаю всё об уходовой косметике</div>
+                <div className="hero-subtitle">
+                  Помогу тебе выбрать средство под твои задачи
+                  <br />и ответить на любые вопросы по уходу
+                </div>
+              </>
+            ) : null}
 
-            <div className="chat-input">
+            <div className="chat-input" onClick={() => inputRef.current?.focus()}>
               <PlusSoftIcon />
               <input
                 placeholder="Спроси меня что угодно"
                 value={message}
                 onChange={(event) => setMessage(event.target.value)}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter' && !event.shiftKey) {
+                    event.preventDefault();
+                    handleSend();
+                  }
+                }}
+                ref={inputRef}
               />
               <button className="send-button" type="button" onClick={handleSend}>
                 <SendIcon />
@@ -255,22 +267,44 @@ export default function Home() {
             {status ? <div className="notice">{status}</div> : null}
           </div>
 
-          <div className="quick-actions">
-            <div className="quick-actions-title">Что я умею?</div>
-            <div className="chip-row">
-              <div className="chip">
-                <FlameIcon />
-                Анализ кожи лица по фото
-              </div>
-              <div className="chip">Подобрать аналог по фото</div>
-              <div className="chip">Собрать набор для ухода</div>
-              <div className="chip">Подобрать средство</div>
-              <div className="chip">Подобрать средство</div>
-              <div className="chip">
-                Собрать набор для студии <span className="pill">Бизнесу</span>
+          {messages.length > 0 ? (
+            <div className="chat-thread">
+              {messages.map((item) => (
+                <div key={item.message_id} className={`chat-bubble ${item.role}`}>
+                  <div className="chat-bubble-content">
+                    {item.text ? (
+                      item.text
+                    ) : item.role === 'assistant' && isStreaming ? (
+                      <span className="typing-indicator" aria-label="Ожидание ответа">
+                        <span />
+                        <span />
+                        <span />
+                      </span>
+                    ) : null}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : null}
+
+          {messages.length === 0 ? (
+            <div className="quick-actions">
+              <div className="quick-actions-title">Что я умею?</div>
+              <div className="chip-row">
+                <div className="chip">
+                  <FlameIcon />
+                  Анализ кожи лица по фото
+                </div>
+                <div className="chip">Подобрать аналог по фото</div>
+                <div className="chip">Собрать набор для ухода</div>
+                <div className="chip">Подобрать средство</div>
+                <div className="chip">Подобрать средство</div>
+                <div className="chip">
+                  Собрать набор для студии <span className="pill">Бизнесу</span>
+                </div>
               </div>
             </div>
-          </div>
+          ) : null}
         </section>
       </div>
     </main>
