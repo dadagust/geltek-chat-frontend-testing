@@ -430,14 +430,19 @@ function PlusSoftIcon() {
         <path d="M12 5V19" stroke="#8F8FA5" strokeWidth="2" strokeLinecap="round"/>
         <path d="M5 12H19" stroke="#8F8FA5" strokeWidth="2" strokeLinecap="round"/>
       </svg>
+
   );
 }
 
 function SendIcon() {
   return (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M6 12H18" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round"/>
-        <path d="M13 7L18 12L13 17" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round"/>
+      <svg width="54" height="54" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+            d="M0 27C0 12.0883 12.0883 0 27 0C41.9117 0 54 12.0883 54 27C54 41.9117 41.9117 54 27 54C12.0883 54 0 41.9117 0 27Z"
+            fill="#5E60D0"/>
+        <path
+            d="M24 33L29.2929 27.7071C29.6262 27.3738 29.7929 27.2071 29.7929 27C29.7929 26.7929 29.6262 26.6262 29.2929 26.2929L24 21"
+            stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
   );
 }
